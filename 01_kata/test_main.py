@@ -56,3 +56,49 @@ def test_checkout_method_from_checkout_object():
     checkout.checkout()
     result = checkout.total_cost()
     assert result == 6.00
+
+def test_checkout_method_from_checkout_object_3_items():
+    code = "VOUCHER"
+    name = "Gift Card"
+    price = 5.00
+
+    item1 = Item(code, name, price)
+    item2 = Item(code, name, price)
+    item3 = Item("TSHIRT", "Summer T-Shirt", 20.00)
+
+    rule = BuyMoreThanNItemsRule(code, 2, 3.00)
+
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule)
+
+    checkout = Checkout(pricing_rules)
+
+    for item in [item1, item2, item3]:
+        checkout.scan(item)
+    checkout.checkout()
+    result = checkout.total_cost()
+    assert result == 26.00
+
+def test_checkout_method_from_checkout_object_3_items_2_same_rules():
+    code = "VOUCHER"
+    name = "Gift Card"
+    price = 5.00
+
+    item1 = Item(code, name, price)
+    item2 = Item(code, name, price)
+    item3 = Item("TSHIRT", "Summer T-Shirt", 20.00)
+
+    rule1 = BuyMoreThanNItemsRule(code, 2, 3.00)
+    rule2 = BuyMoreThanNItemsRule("TSHIRT", 1, 19.00)
+
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule1)
+    pricing_rules.append_rule(rule2)
+
+    checkout = Checkout(pricing_rules)
+
+    for item in [item1, item2, item3]:
+        checkout.scan(item)
+    checkout.checkout()
+    result = checkout.total_cost()
+    assert result == 25.00

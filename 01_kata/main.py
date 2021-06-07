@@ -51,7 +51,6 @@ class Checkout:
 
     def total_cost(self):
         total = 0
-        print(self.__shopping_cart)
         for i in self.__shopping_cart:
             total += i.price
         return total

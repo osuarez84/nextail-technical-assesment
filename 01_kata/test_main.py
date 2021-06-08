@@ -212,3 +212,12 @@ def test_checkout_with_two_different_rules_4():
     checkout.checkout()
     result = checkout.total_cost()
     assert result == 74.5
+
+def test_rules_deletion_from_pricing_rules_object():
+    rule1 = BuyXPayYRule("VOUCHER", 2, 1)
+    rule2 = BuyMoreThanNItemsRule("TSHIRT", 3, 19.00)
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule1)
+    pricing_rules.append_rule(rule2)
+    pricing_rules.delete_rules()
+    assert pricing_rules.get_rules() == []

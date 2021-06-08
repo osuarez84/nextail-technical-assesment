@@ -47,7 +47,9 @@ class PricingRules:
     def get_rules(self):
         return self.__list_of_rules
 
-    ## TODO: add method to delete all rules
+    def delete_rules(self):
+        self.__list_of_rules = []
+
 
 
 class Checkout:

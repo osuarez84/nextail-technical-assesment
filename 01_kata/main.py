@@ -19,7 +19,11 @@ class BuyMoreThanNItemsRule:
                 if (i.code == self.item):
                     i.price = self.price
 
-
+class BuyXPayYRule:
+    def __init__(self, item: str, n_buy: int, n_pay: int):
+        self.item = item
+        self.n_buy = n_buy
+        self.n_pay = n_pay
 
 class PricingRules:
     def __init__(self):

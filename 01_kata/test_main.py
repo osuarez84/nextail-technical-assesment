@@ -1,4 +1,4 @@
-from main import Item, BuyMoreThanNItemsRule, Checkout, PricingRules
+from main import *
 
 def test_class_item():
     code = "VOUCHER"
@@ -102,3 +102,7 @@ def test_checkout_method_from_checkout_object_3_items_2_same_rules():
     checkout.checkout()
     result = checkout.total_cost()
     assert result == 25.00
+
+def test_rule_buy_x_pay_y():
+    rule = BuyXPayYRule("VOUCHER", 3, 1)
+    assert (rule.item, rule.n_buy, rule.n_pay) == ("VOUCHER", 3, 1)

@@ -168,7 +168,7 @@ class Checkout:
             A list with all the rules that are applied.
         """
         self.__rules = rules
-        self.__shopping_cart = []
+        self.__shopping_cart: list[Item] = []
 
     def scan(self, item: Item):
         """
@@ -199,7 +199,7 @@ class Checkout:
         """
         A method to get the total cost of the shopping cart.
         """
-        total = 0
+        total = 0.0
         for i in self.__shopping_cart:
             total += i.price
         return total

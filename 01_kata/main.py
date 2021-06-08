@@ -1,4 +1,4 @@
-
+import random
 
 class Item:
     def __init__(self, code: str, name: str, price: float):
@@ -12,7 +12,7 @@ class BuyMoreThanNItemsRule:
         self.number_items = number_items
         self.price = price
 
-    def apply(self, shopping_cart):
+    def apply(self, shopping_cart: list[Item]):
         list_of_items = [i.code for i in shopping_cart]
         if (list_of_items.count(self.item) >= self.number_items):
             for i in shopping_cart:
@@ -24,6 +24,18 @@ class BuyXPayYRule:
         self.item = item
         self.n_buy = n_buy
         self.n_pay = n_pay
+
+    def apply(self, shopping_cart: list[Item]):
+        list_of_items = [i.code for i in shopping_cart]
+        if (self.item in list_of_items):
+            free_items = self.n_buy - self.n_pay
+            groups_of_items = list_of_items.count(self.item) // self.n_buy
+            if (groups_of_items > 0):
+                get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.item]
+                final_indexes = random.sample(get_indexes, free_items)
+                for i in final_indexes:
+                    shopping_cart[i].price = 0.0
+
 
 class PricingRules:
     def __init__(self):

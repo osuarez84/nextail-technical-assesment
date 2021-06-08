@@ -1,4 +1,5 @@
 import random
+from typing import Union
 
 class Item:
     def __init__(self, code: str, name: str, price: float):
@@ -41,10 +42,10 @@ class PricingRules:
     def __init__(self):
         self.__list_of_rules = []
 
-    def append_rule(self, rule):
+    def append_rule(self, rule: Union[BuyXPayYRule, BuyMoreThanNItemsRule]):
         self.__list_of_rules.append(rule)
 
-    def get_rules(self):
+    def get_rules(self) -> list:
         return self.__list_of_rules
 
     def delete_rules(self):
@@ -60,14 +61,14 @@ class Checkout:
     def scan(self, item: Item):
         self.__shopping_cart.append(item)
 
-    def get_shopping_cart(self):
+    def get_shopping_cart(self) -> list[str]:
         return [i.code for i in self.__shopping_cart]
 
     def checkout(self):
         for rule in self.__rules.get_rules():
             rule.apply(self.__shopping_cart)
 
-    def total_cost(self):
+    def total_cost(self) -> float:
         total = 0
         for i in self.__shopping_cart:
             total += i.price

@@ -185,7 +185,7 @@ class Checkout:
         """
         A method to get the whole list of items in the shopping cart.
         """
-        return [i.code for i in self.__shopping_cart]
+        return [item.code for item in self.__shopping_cart]
 
     def checkout(self):
         """

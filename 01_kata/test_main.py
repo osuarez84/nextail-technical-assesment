@@ -1,4 +1,5 @@
 from main import *
+import pytest
 
 def test_class_item():
     code = "VOUCHER"
@@ -225,3 +226,18 @@ def test_rules_deletion_from_pricing_rules_object():
     pricing_rules.append_rule(rule2)
     pricing_rules.delete_rules()
     assert pricing_rules.get_rules() == []
+
+def test_class_item_validation_price():
+    with pytest.raises(ValueError):
+        Item("TSHIRT", "Summer T-Shirt", -20.00)
+
+def test_class_item_validation_price_2():
+    with pytest.raises(ValueError):
+        Item("TSHIRT", "Summer T-Shirt", 99999999)
+
+def test_class_item_valudation_price_3():
+    with pytest.raises(TypeError):
+        Item("TSHIRT", "Summer T-Shirt", "None")
+
+# TODO
+# Add more test for the parameter validation in the other classes

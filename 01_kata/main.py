@@ -54,11 +54,11 @@ class BuyMoreThanNItemsRule:
         shopping_cart : list[Item]
             The shopping cart with all the items.
         """
-        list_of_items = [i.code for i in shopping_cart]
+        list_of_items = [item.code for item in shopping_cart]
         if (list_of_items.count(self.item) >= self.number_items):
-            for i in shopping_cart:
-                if (i.code == self.item):
-                    i.price = self.price
+            for item in shopping_cart:
+                if (item.code == self.item):
+                    item.price = self.price
 
 class BuyXPayYRule:
     """
@@ -93,15 +93,15 @@ class BuyXPayYRule:
         shopping_cart : list[Item]
             The shopping cart with all the items.
         """
-        list_of_items = [i.code for i in shopping_cart]
+        list_of_items = [items.code for items in shopping_cart]
         if (self.item in list_of_items):
             free_items = self.n_buy - self.n_pay
             groups_of_items = list_of_items.count(self.item) // self.n_buy
             if (groups_of_items > 0):
                 get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.item]
                 final_indexes = random.sample(get_indexes, free_items)
-                for i in final_indexes:
-                    shopping_cart[i].price = 0.0
+                for ix in final_indexes:
+                    shopping_cart[ix].price = 0.0
 
 
 class PricingRules:
@@ -200,6 +200,6 @@ class Checkout:
         A method to get the total cost of the shopping cart.
         """
         total = 0.0
-        for i in self.__shopping_cart:
-            total += i.price
+        for item in self.__shopping_cart:
+            total += item.price
         return total

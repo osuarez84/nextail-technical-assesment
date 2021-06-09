@@ -1,4 +1,3 @@
-import random
 from typing import Union
 
 class Item:
@@ -99,7 +98,9 @@ class BuyXPayYRule:
             groups_of_items = list_of_items.count(self.itemCode) // self.n_buy
             if (groups_of_items > 0):
                 get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.itemCode]
-                final_indexes = random.sample(get_indexes, free_items)
+                print(get_indexes)
+                print(free_items)
+                final_indexes = get_indexes[:free_items]
                 for ix in final_indexes:
                     shopping_cart[ix].price = 0.0
 

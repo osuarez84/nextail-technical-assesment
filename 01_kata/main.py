@@ -41,7 +41,7 @@ class BuyMoreThanNItemsRule:
         price : float
             New price after the rule applies.
         """
-        self.item = item
+        self.itemCode = item
         self.number_items = number_items
         self.price = price
 
@@ -55,9 +55,9 @@ class BuyMoreThanNItemsRule:
             The shopping cart with all the items.
         """
         list_of_items = [item.code for item in shopping_cart]
-        if (list_of_items.count(self.item) >= self.number_items):
+        if (list_of_items.count(self.itemCode) >= self.number_items):
             for item in shopping_cart:
-                if (item.code == self.item):
+                if (item.code == self.itemCode):
                     item.price = self.price
 
 class BuyXPayYRule:
@@ -80,7 +80,7 @@ class BuyXPayYRule:
         n_pay : int
             Number of items to pay.
         """
-        self.item = item
+        self.itemCode = item
         self.n_buy = n_buy
         self.n_pay = n_pay
 
@@ -94,11 +94,11 @@ class BuyXPayYRule:
             The shopping cart with all the items.
         """
         list_of_items = [items.code for items in shopping_cart]
-        if (self.item in list_of_items):
+        if (self.itemCode in list_of_items):
             free_items = self.n_buy - self.n_pay
-            groups_of_items = list_of_items.count(self.item) // self.n_buy
+            groups_of_items = list_of_items.count(self.itemCode) // self.n_buy
             if (groups_of_items > 0):
-                get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.item]
+                get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.itemCode]
                 final_indexes = random.sample(get_indexes, free_items)
                 for ix in final_indexes:
                     shopping_cart[ix].price = 0.0

@@ -1,6 +1,9 @@
 from main import *
 import pytest
 
+####################
+# Testing Item class
+####################
 def test_class_item():
     code = "VOUCHER"
     name = "Gift Card"
@@ -8,110 +11,21 @@ def test_class_item():
     item = Item(code, name, price)
     assert (item.code, item.name, item.price) == (code, name, price)
 
+def test_class_item_validation_price():
+    with pytest.raises(ValueError):
+        Item("TSHIRT", "Summer T-Shirt", -20.00)
 
-def test_checkout_scan_and_get_items():
-    code = "VOUCHER"
-    name = "Gift Card"
-    price = 5.00
+def test_class_item_validation_price_2():
+    item = Item("   TSHIRT ", "    Summer T-Shirt ", 99.9)
+    assert (item.code, item.name) == ("TSHIRT", "Summer T-Shirt")
 
-    item1 = Item(code, name, price)
-    item2 = Item(code, name, price)
+def test_class_item_valudation_price_3():
+    with pytest.raises(TypeError):
+        Item("TSHIRT", "Summer T-Shirt", "None")
 
-    rule = BuyMoreThanNItemsRule(code, 2, price)
-    pricing_rules = PricingRules()
-    pricing_rules.append_rule(rule)
-
-    checkout = Checkout(pricing_rules)
-
-    for item in [item1, item2]:
-        checkout.scan(item)
-    assert checkout.get_shopping_cart() == [item1.code, item2.code]
-
-
-def test_pricing_rules():
-    code = "VOUCHER"
-
-    rule = BuyMoreThanNItemsRule(code, 2, 3.00)
-    pricing_rules = PricingRules()
-    pricing_rules.append_rule(rule)
-    assert pricing_rules.get_rules()[0].price == 3.00
-
-
-def test_checkout_method_from_checkout_object():
-    code = "VOUCHER"
-    name = "Gift Card"
-    price = 5.00
-
-    item1 = Item(code, name, price)
-    item2 = Item(code, name, price)
-
-    rule = BuyMoreThanNItemsRule(code, 2, 3.00)
-
-    pricing_rules = PricingRules()
-    pricing_rules.append_rule(rule)
-
-    checkout = Checkout(pricing_rules)
-
-    for item in [item1, item2]:
-        checkout.scan(item)
-    checkout.checkout()
-    result = checkout.total_cost()
-    assert result == 6.00
-
-def test_checkout_method_from_checkout_object_3_items():
-    code = "VOUCHER"
-    name = "Gift Card"
-    price = 5.00
-
-    item1 = Item(code, name, price)
-    item2 = Item(code, name, price)
-    item3 = Item("TSHIRT", "Summer T-Shirt", 20.00)
-
-    rule = BuyMoreThanNItemsRule(code, 2, 3.00)
-
-    pricing_rules = PricingRules()
-    pricing_rules.append_rule(rule)
-
-    checkout = Checkout(pricing_rules)
-
-    for item in [item1, item2, item3]:
-        checkout.scan(item)
-    checkout.checkout()
-    result = checkout.total_cost()
-    assert result == 26.00
-
-def test_checkout_method_from_checkout_object_3_items_2_same_rules():
-    code = "VOUCHER"
-    name = "Gift Card"
-    price = 5.00
-
-    item1 = Item(code, name, price)
-    item2 = Item(code, name, price)
-    item3 = Item("TSHIRT", "Summer T-Shirt", 20.00)
-
-    rule1 = BuyMoreThanNItemsRule(code, 2, 3.00)
-    rule2 = BuyMoreThanNItemsRule("TSHIRT", 1, 19.00)
-
-    pricing_rules = PricingRules()
-    pricing_rules.append_rule(rule1)
-    pricing_rules.append_rule(rule2)
-
-    checkout = Checkout(pricing_rules)
-
-    for item in [item1, item2, item3]:
-        checkout.scan(item)
-    checkout.checkout()
-    result = checkout.total_cost()
-    assert result == 25.00
-
-def test_rule_buy_more_than_n_items():
-    rule = BuyMoreThanNItemsRule("TSHIRT", 2, 19.00)
-    assert (rule.item_code, rule.number_of_items, rule.price) == ("TSHIRT", 2, 19.00)
-
-def test_rule_buy_x_pay_y():
-    rule = BuyXPayYRule("VOUCHER", 3, 1)
-    assert (rule.item_code, rule.n_buy, rule.n_pay) == ("VOUCHER", 3, 1)
-
+########################
+# Testing Checkout class
+########################
 def test_checkout_with_rule_buy_x_pay_y():
     code = "VOUCHER"
     name = "Gift Card"
@@ -218,6 +132,102 @@ def test_checkout_with_two_different_rules_4():
     result = checkout.total_cost()
     assert result == 74.5
 
+def test_checkout_scan_and_get_items():
+    code = "VOUCHER"
+    name = "Gift Card"
+    price = 5.00
+
+    item1 = Item(code, name, price)
+    item2 = Item(code, name, price)
+
+    rule = BuyMoreThanNItemsRule(code, 2, price)
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule)
+
+    checkout = Checkout(pricing_rules)
+
+    for item in [item1, item2]:
+        checkout.scan(item)
+    assert checkout.get_shopping_cart() == [item1.code, item2.code]
+
+def test_checkout_method_from_checkout_object():
+    code = "VOUCHER"
+    name = "Gift Card"
+    price = 5.00
+
+    item1 = Item(code, name, price)
+    item2 = Item(code, name, price)
+
+    rule = BuyMoreThanNItemsRule(code, 2, 3.00)
+
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule)
+
+    checkout = Checkout(pricing_rules)
+
+    for item in [item1, item2]:
+        checkout.scan(item)
+    checkout.checkout()
+    result = checkout.total_cost()
+    assert result == 6.00
+
+def test_checkout_method_from_checkout_object_3_items():
+    code = "VOUCHER"
+    name = "Gift Card"
+    price = 5.00
+
+    item1 = Item(code, name, price)
+    item2 = Item(code, name, price)
+    item3 = Item("TSHIRT", "Summer T-Shirt", 20.00)
+
+    rule = BuyMoreThanNItemsRule(code, 2, 3.00)
+
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule)
+
+    checkout = Checkout(pricing_rules)
+
+    for item in [item1, item2, item3]:
+        checkout.scan(item)
+    checkout.checkout()
+    result = checkout.total_cost()
+    assert result == 26.00
+
+def test_checkout_method_from_checkout_object_3_items_2_same_rules():
+    code = "VOUCHER"
+    name = "Gift Card"
+    price = 5.00
+
+    item1 = Item(code, name, price)
+    item2 = Item(code, name, price)
+    item3 = Item("TSHIRT", "Summer T-Shirt", 20.00)
+
+    rule1 = BuyMoreThanNItemsRule(code, 2, 3.00)
+    rule2 = BuyMoreThanNItemsRule("TSHIRT", 1, 19.00)
+
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule1)
+    pricing_rules.append_rule(rule2)
+
+    checkout = Checkout(pricing_rules)
+
+    for item in [item1, item2, item3]:
+        checkout.scan(item)
+    checkout.checkout()
+    result = checkout.total_cost()
+    assert result == 25.00
+
+############################
+# Testing PricingRules class
+############################
+def test_pricing_rules():
+    code = "VOUCHER"
+
+    rule = BuyMoreThanNItemsRule(code, 2, 3.00)
+    pricing_rules = PricingRules()
+    pricing_rules.append_rule(rule)
+    assert pricing_rules.get_rules()[0].price == 3.00
+
 def test_rules_deletion_from_pricing_rules_object():
     rule1 = BuyXPayYRule("VOUCHER", 2, 1)
     rule2 = BuyMoreThanNItemsRule("TSHIRT", 3, 19.00)
@@ -227,22 +237,16 @@ def test_rules_deletion_from_pricing_rules_object():
     pricing_rules.delete_rules()
     assert pricing_rules.get_rules() == []
 
-def test_class_item_validation_price():
-    with pytest.raises(ValueError):
-        Item("TSHIRT", "Summer T-Shirt", -20.00)
-
-def test_class_item_validation_price_2():
-    item = Item("   TSHIRT ", "    Summer T-Shirt ", 99.9)
-    assert (item.code, item.name) == ("TSHIRT", "Summer T-Shirt")
-
-def test_class_item_valudation_price_3():
-    with pytest.raises(TypeError):
-        Item("TSHIRT", "Summer T-Shirt", "None")
+#####################################
+# Testing BuyMoreThanNItemsRule class
+#####################################
+def test_rule_buy_more_than_n_items():
+    rule = BuyMoreThanNItemsRule("TSHIRT", 2, 19.00)
+    assert (rule.item_code, rule.number_of_items, rule.price) == ("TSHIRT", 2, 19.00)
 
 def test_class_BuyMoreThanNItemsRule_1():
     rule = BuyMoreThanNItemsRule("  TSHIRT", 7, 20)
     assert rule.item_code == "TSHIRT"
-
 
 def test_class_BuyMoreThanNItemsRule_2():
     with pytest.raises(ValueError):
@@ -251,6 +255,13 @@ def test_class_BuyMoreThanNItemsRule_2():
 def test_class_BuyMoreThanNItemsRule_3():
     with pytest.raises(ValueError):
         BuyMoreThanNItemsRule("  TSHIRT", 7, -20)
+
+############################
+# Testing BuyXPayYRule class
+############################
+def test_rule_buy_x_pay_y():
+    rule = BuyXPayYRule("VOUCHER", 3, 1)
+    assert (rule.item_code, rule.n_buy, rule.n_pay) == ("VOUCHER", 3, 1)
 
 def test_class_BuyXPayYRule_1():
     rule = BuyXPayYRule("PANTS   ", 2, 1)

@@ -115,6 +115,9 @@ class BuyMoreThanNItemsRule:
                 if (item.code == self.item_code):
                     item.price = self.price
 
+class NbuyLessThanNpayError(Exception):
+    pass
+
 class BuyXPayYRule:
     """
     A class to represent a rule of the type 'buy X pay Y'.
@@ -136,8 +139,12 @@ class BuyXPayYRule:
             Number of items to pay.
         """
         self.item_code = item
+
         self.n_buy = n_buy
         self.n_pay = n_pay
+        if (self.n_buy < self.n_pay):
+            raise NbuyLessThanNpayError("The number of items to buy can not be \
+                             less than the number of items to pay for.")
 
     @property
     def item_code(self):
@@ -145,11 +152,7 @@ class BuyXPayYRule:
 
     @item_code.setter
     def item_code(self, value):
-        if not isinstance(value, str):
-            raise TypeError("item_code must be a string.")
-        elif len(value) > 15:
-            raise ValueError("item_code can not exceed 15 characters.")
-        self._item_code = value
+        self._item_code = value.strip()
 
     @property
     def n_buy(self):
@@ -157,10 +160,8 @@ class BuyXPayYRule:
 
     @n_buy.setter
     def n_buy(self, value):
-        if not isinstance(value, int):
-            raise TypeError("n_buy must be a number.")
-        elif (value < 0) or (value > 10):
-            raise ValueError("n_buy can not be less than 0 or more than 10.")
+        if (value < 0):
+            raise ValueError("n_buy can not be less than 0.")
         self._n_buy = value
 
     @property
@@ -169,13 +170,9 @@ class BuyXPayYRule:
 
     @n_pay.setter
     def n_pay(self, value):
-        if not isinstance(value, int):
-            raise TypeError("n_pay must be a number.")
-        elif (value < 0) or (value > 10):
-            raise ValueError("n_pay can not be less than 0 or more than 10.")
+        if (value < 0):
+            raise ValueError("n_pay can not be less than 0.")
         self._n_pay = value
-
-
 
     def apply(self, shopping_cart: list[Item]):
         """

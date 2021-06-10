@@ -251,3 +251,19 @@ def test_class_BuyMoreThanNItemsRule_2():
 def test_class_BuyMoreThanNItemsRule_3():
     with pytest.raises(ValueError):
         BuyMoreThanNItemsRule("  TSHIRT", 7, -20)
+
+def test_class_BuyXPayYRule_1():
+    rule = BuyXPayYRule("PANTS   ", 2, 1)
+    assert rule.item_code == "PANTS"
+
+def test_class_BuyXPayYRule_2():
+    with pytest.raises(NbuyLessThanNpayError):
+        BuyXPayYRule("PANTS   ", 1, 5)
+
+def test_class_BuyXPayYRule_3():
+    with pytest.raises(ValueError):
+        BuyXPayYRule("PANTS   ", -3, 2)
+
+def test_class_BuyXPayYRule_4():
+    with pytest.raises(ValueError):
+        BuyXPayYRule("PANTS   ", 3, -2)

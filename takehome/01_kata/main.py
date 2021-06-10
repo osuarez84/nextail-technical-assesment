@@ -19,18 +19,13 @@ class Item:
         self.name = name
         self.price = price
 
-
     @property
     def code(self):
         return self._code
 
     @code.setter
     def code(self, value):
-        if not isinstance(value, str):
-            raise TypeError("Code must be a string.")
-        elif len(value) > 15:
-            raise ValueError("Code can not exceed 15 characters.")
-        self._code = value
+        self._code = value.strip()
 
     @property
     def name(self):
@@ -38,11 +33,7 @@ class Item:
 
     @name.setter
     def name(self, value):
-        if not isinstance(value, str):
-            raise TypeError("Name must be a string.")
-        elif len(value) > 50:
-            raise ValueError("Name can not exceed 50 characters.")
-        self._name = value
+        self._name = value.strip()
 
     @property
     def price(self):
@@ -50,10 +41,8 @@ class Item:
 
     @price.setter
     def price(self, value):
-        if not isinstance(value, (float, int)):
-            raise TypeError("Price must be a number.")
-        elif (value < 0) or (value > 9999):
-            raise ValueError("Price can not be less than 0 or more than 9999.")
+        if (value < 0):
+            raise ValueError("Price can not be less than 0.")
         self._price = value
 
 
@@ -148,7 +137,7 @@ class BuyXPayYRule:
         Parameters
         ----------
         item_code : str
-            Name of the item for whom the rule applies.
+            Name of the item for which the rule applies.
         n_buy : int
             Number of items to buy.
         n_pay : int

@@ -232,8 +232,8 @@ def test_class_item_validation_price():
         Item("TSHIRT", "Summer T-Shirt", -20.00)
 
 def test_class_item_validation_price_2():
-    with pytest.raises(ValueError):
-        Item("TSHIRT", "Summer T-Shirt", 99999999)
+    item = Item("   TSHIRT ", "    Summer T-Shirt ", 99.9)
+    assert (item.code, item.name) == ("TSHIRT", "Summer T-Shirt")
 
 def test_class_item_valudation_price_3():
     with pytest.raises(TypeError):

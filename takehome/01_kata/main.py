@@ -72,28 +72,28 @@ class BuyMoreThanNItemsRule:
         """
         Parameters
         ----------
-        itemCode : str
+        item_code : str
             Name of the item for which the rule applies.
         number_items : int
             Number of minimum items to buy for the rule to be applied.
         price : float
             New price after the rule applies.
         """
-        self.itemCode = item
+        self.item_code = item
         self.number_items = number_items
         self.price = price
 
     @property
-    def itemCode(self):
-        return self._itemCode
+    def item_code(self):
+        return self._item_code
 
-    @itemCode.setter
-    def itemCode(self, value):
+    @item_code.setter
+    def item_code(self, value):
         if not isinstance(value, str):
-            raise TypeError("itemCode must be a string.")
+            raise TypeError("item_code must be a string.")
         elif len(value) > 15:
-            raise ValueError("itemCode can not exceed 15 characters.")
-        self._itemCode = value
+            raise ValueError("item_code can not exceed 15 characters.")
+        self._item_code = value
 
     @property
     def number_items(self):
@@ -129,9 +129,9 @@ class BuyMoreThanNItemsRule:
             The shopping cart with all the items.
         """
         list_of_items = [item.code for item in shopping_cart]
-        if (list_of_items.count(self.itemCode) >= self.number_items):
+        if (list_of_items.count(self.item_code) >= self.number_items):
             for item in shopping_cart:
-                if (item.code == self.itemCode):
+                if (item.code == self.item_code):
                     item.price = self.price
 
 class BuyXPayYRule:
@@ -147,28 +147,28 @@ class BuyXPayYRule:
         """
         Parameters
         ----------
-        itemCode : str
+        item_code : str
             Name of the item for whom the rule applies.
         n_buy : int
             Number of items to buy.
         n_pay : int
             Number of items to pay.
         """
-        self.itemCode = item
+        self.item_code = item
         self.n_buy = n_buy
         self.n_pay = n_pay
 
     @property
-    def itemCode(self):
-        return self._itemCode
+    def item_code(self):
+        return self._item_code
 
-    @itemCode.setter
-    def itemCode(self, value):
+    @item_code.setter
+    def item_code(self, value):
         if not isinstance(value, str):
-            raise TypeError("itemCode must be a string.")
+            raise TypeError("item_code must be a string.")
         elif len(value) > 15:
-            raise ValueError("itemCode can not exceed 15 characters.")
-        self._itemCode = value
+            raise ValueError("item_code can not exceed 15 characters.")
+        self._item_code = value
 
     @property
     def n_buy(self):
@@ -206,11 +206,11 @@ class BuyXPayYRule:
             The shopping cart with all the items.
         """
         list_of_items = [items.code for items in shopping_cart]
-        if (self.itemCode in list_of_items):
+        if (self.item_code in list_of_items):
             free_items = self.n_buy - self.n_pay
-            groups_of_items = list_of_items.count(self.itemCode) // self.n_buy
+            groups_of_items = list_of_items.count(self.item_code) // self.n_buy
             if (groups_of_items > 0):
-                get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.itemCode]
+                get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.item_code]
                 print(get_indexes)
                 print(free_items)
                 final_indexes = get_indexes[:free_items]

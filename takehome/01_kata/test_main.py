@@ -106,11 +106,11 @@ def test_checkout_method_from_checkout_object_3_items_2_same_rules():
 
 def test_rule_buy_more_than_n_items():
     rule = BuyMoreThanNItemsRule("TSHIRT", 2, 19.00)
-    assert (rule.itemCode, rule.number_items, rule.price) == ("TSHIRT", 2, 19.00)
+    assert (rule.item_code, rule.number_items, rule.price) == ("TSHIRT", 2, 19.00)
 
 def test_rule_buy_x_pay_y():
     rule = BuyXPayYRule("VOUCHER", 3, 1)
-    assert (rule.itemCode, rule.n_buy, rule.n_pay) == ("VOUCHER", 3, 1)
+    assert (rule.item_code, rule.n_buy, rule.n_pay) == ("VOUCHER", 3, 1)
 
 def test_checkout_with_rule_buy_x_pay_y():
     code = "VOUCHER"

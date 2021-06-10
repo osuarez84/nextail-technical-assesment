@@ -68,19 +68,19 @@ class BuyMoreThanNItemsRule:
     apply(shopping_cart)
         Apply the rule over the items in the shopping cart.
     """
-    def __init__(self, item: str, number_items: int, price: float):
+    def __init__(self, item: str, number_of_items: int, price: float):
         """
         Parameters
         ----------
         item_code : str
             Name of the item for which the rule applies.
-        number_items : int
+        number_of_items : int
             Number of minimum items to buy for the rule to be applied.
         price : float
             New price after the rule applies.
         """
         self.item_code = item
-        self.number_items = number_items
+        self.number_of_items = number_of_items
         self.price = price
 
     @property
@@ -96,16 +96,16 @@ class BuyMoreThanNItemsRule:
         self._item_code = value
 
     @property
-    def number_items(self):
-        return self._number_items
+    def number_of_items(self):
+        return self._number_of_items
 
-    @number_items.setter
-    def number_items(self, value):
+    @number_of_items.setter
+    def number_of_items(self, value):
         if not isinstance(value, int):
-            raise TypeError("number_items must be a number.")
+            raise TypeError("number_of_items must be a number.")
         elif (value < 0) or (value > 99):
-            raise ValueError("number_items can not be less than 0 or more than 99.")
-        self._number_items = value
+            raise ValueError("number_of_items can not be less than 0 or more than 99.")
+        self._number_of_items = value
 
     @property
     def price(self):
@@ -129,7 +129,7 @@ class BuyMoreThanNItemsRule:
             The shopping cart with all the items.
         """
         list_of_items = [item.code for item in shopping_cart]
-        if (list_of_items.count(self.item_code) >= self.number_items):
+        if (list_of_items.count(self.item_code) >= self.number_of_items):
             for item in shopping_cart:
                 if (item.code == self.item_code):
                     item.price = self.price

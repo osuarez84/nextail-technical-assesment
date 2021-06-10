@@ -205,14 +205,12 @@ class BuyXPayYRule:
         shopping_cart : list[Item]
             The shopping cart with all the items.
         """
-        list_of_items = [items.code for items in shopping_cart]
+        list_of_items = [item.code for item in shopping_cart]
         if (self.item_code in list_of_items):
             free_items = self.n_buy - self.n_pay
             groups_of_items = list_of_items.count(self.item_code) // self.n_buy
             if (groups_of_items > 0):
                 get_indexes = [index for index, el in enumerate(shopping_cart) if el.code == self.item_code]
-                print(get_indexes)
-                print(free_items)
                 final_indexes = get_indexes[:free_items]
                 for ix in final_indexes:
                     shopping_cart[ix].price = 0.0

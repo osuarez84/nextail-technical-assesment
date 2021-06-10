@@ -239,5 +239,15 @@ def test_class_item_valudation_price_3():
     with pytest.raises(TypeError):
         Item("TSHIRT", "Summer T-Shirt", "None")
 
-# TODO
-# Add more test for the parameter validation in the other classes
+def test_class_BuyMoreThanNItemsRule_1():
+    rule = BuyMoreThanNItemsRule("  TSHIRT", 7, 20)
+    assert rule.item_code == "TSHIRT"
+
+
+def test_class_BuyMoreThanNItemsRule_2():
+    with pytest.raises(ValueError):
+        BuyMoreThanNItemsRule("  TSHIRT", -7, 20)
+
+def test_class_BuyMoreThanNItemsRule_3():
+    with pytest.raises(ValueError):
+        BuyMoreThanNItemsRule("  TSHIRT", 7, -20)

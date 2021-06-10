@@ -78,11 +78,7 @@ class BuyMoreThanNItemsRule:
 
     @item_code.setter
     def item_code(self, value):
-        if not isinstance(value, str):
-            raise TypeError("item_code must be a string.")
-        elif len(value) > 15:
-            raise ValueError("item_code can not exceed 15 characters.")
-        self._item_code = value
+        self._item_code = value.strip()
 
     @property
     def number_of_items(self):
@@ -90,10 +86,8 @@ class BuyMoreThanNItemsRule:
 
     @number_of_items.setter
     def number_of_items(self, value):
-        if not isinstance(value, int):
-            raise TypeError("number_of_items must be a number.")
-        elif (value < 0) or (value > 99):
-            raise ValueError("number_of_items can not be less than 0 or more than 99.")
+        if (value < 0):
+            raise ValueError("number_of_items can not be less than 0.")
         self._number_of_items = value
 
     @property
@@ -102,10 +96,8 @@ class BuyMoreThanNItemsRule:
 
     @price.setter
     def price(self, value):
-        if not isinstance(value, (float, int)):
-            raise TypeError("Price must be a number.")
-        elif (value < 0) or (value > 9999):
-            raise ValueError("Price can not be less than 0 or more than 9999.")
+        if (value < 0):
+            raise ValueError("Price can not be less than 0.")
         self._price = value
 
     def apply(self, shopping_cart: list[Item]):
